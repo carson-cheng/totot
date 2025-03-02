@@ -16,7 +16,7 @@ def set_seeds(seed):
 set_seeds(0)
 from cox.utils import Parameters
 import cox.store
-def load_model(checkpoint_path="/workspace/resnet50_extra_pgd5_1epoch.pt", ds=None, batch_size=128, workers=8):
+def load_model(checkpoint_path, ds=None, batch_size=128, workers=8):
     if ds == None:
         ds = CIFAR('/path/to/cifar')
     m, _ = model_utils.make_and_restore_model(arch='resnet50', dataset=ds, resume_path=checkpoint_path)
@@ -128,7 +128,7 @@ def evaluate(m, val_loader, norm):
         print("Linf PGD-100 evaluation:")
         eval_args(adv_train_kwargs, val_loader, m)
 def main():
-    m, train_loader, val_loader = load_model(checkpoint_path="/workspace/cifar_linf_8.pt")
+    m, train_loader, val_loader = load_model(checkpoint_path="/path/to/cifar_linf_8.pt")
     m = train_model(m, train_loader, val_loader)
     evaluate(m, val_loader, "inf")
 if __name__ == "__main__":
